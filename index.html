@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Teddy Day 🧸</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#ff7eb3,#ff758c);
+  text-align:center;
+  color:white;
+  overflow:hidden;
+}
+
+/* Title */
+h1{
+  margin-top:40px;
+  font-size:2.2rem;
+  text-shadow:0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Question */
+#question{
+  margin-top:20px;
+  font-size:1.5rem;
+}
+
+/* Buttons */
+.buttons{
+  margin-top:35px;
+  position:relative;
+  height:120px;
+}
+
+button{
+  padding:15px 35px;
+  font-size:1.2rem;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+}
+
+#yes{
+  background:#ff0033;
+  color:white;
+}
+
+#no{
+  background:white;
+  color:#ff0033;
+  position:absolute;
+}
+
+/* Message */
+#message{
+  margin-top:30px;
+  font-size:1.6rem;
+  font-weight:bold;
+  display:none;
+}
+
+/* Teddy rain */
+.teddy{
+  position:fixed;
+  bottom:-30px;
+  font-size:32px;
+  animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(-120vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>Happy Teddy Day 🧸</h1>
+<div id="question">Teddy kavali ante YES click chey 😜</div>
+
+<div class="buttons">
+  <button id="yes">YES 🧸</button>
+  <button id="no">NO 😝</button>
+</div>
+
+<div id="message">Teddy kanna nuvve cute 🥰🧸</div>
+
+<audio id="voice" src="voice.mp3"></audio>
+
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const msg = document.getElementById("message");
+const voice = document.getElementById("voice");
+
+/* NO button runs away */
+function moveNo(){
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+moveNo();
+
+/* YES click */
+yesBtn.onclick = ()=>{
+  document.querySelector(".buttons").style.display="none";
+  msg.style.display="block";
+  voice.play();
+  teddyRain();
+};
+
+/* Teddy rain */
+function teddyRain(){
+  setInterval(()=>{
+    const t = document.createElement("div");
+    t.className="teddy";
+    t.innerText="🧸";
+    t.style.left = Math.random()*100 + "vw";
+    t.style.animationDuration = (3 + Math.random()*3) + "s";
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),6000);
+  },250);
+}
+</script>
+
+</body>
+</html>
