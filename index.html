@@ -9,7 +9,7 @@
 body{
   margin:0;
   height:100vh;
-  font-family:'Poppins', sans-serif;
+  font-family:'Poppins',sans-serif;
   background:linear-gradient(135deg,#ff758c,#ff7eb3);
   display:flex;
   flex-direction:column;
@@ -19,20 +19,19 @@ body{
   text-align:center;
 }
 
-/* Glowing text */
+/* Glowing name */
 #loveText{
   font-size:2.4rem;
   font-weight:bold;
   color:#fff;
-  animation:glow 2s infinite alternate;
+  animation:glow 1.8s infinite alternate;
 }
 @keyframes glow{
-  from{ text-shadow:0 0 10px #fff;}
-  to{ text-shadow:0 0 35px #ff0033;}
+  from{ text-shadow:0 0 8px #fff;}
+  to{ text-shadow:0 0 30px #ff0033;}
 }
 
-h1{color:#fff;}
-p{color:#fff;font-size:1.2rem;}
+h1,p{color:#fff}
 
 button{
   padding:15px 30px;
@@ -43,89 +42,74 @@ button{
   margin:10px;
 }
 #yes{background:#ff0033;color:white;}
-#no{
-  background:white;
-  color:#ff0033;
-  position:absolute;
-}
+#no{background:white;color:#ff0033;position:absolute;}
 
-/* Teddy */
-#teddyBig{
+/* TEDDY CONTAINER */
+#teddyWrap{
   position:fixed;
-  bottom:-120px;
-  width:120px;
-  display:none;
-  z-index:4;
-}
-
-/* Teddy walk forward */
-.walk{
-  animation:walkIn 6s ease-out forwards;
-}
-@keyframes walkIn{
-  0%{
-    transform:scale(0.3);
-    bottom:-150px;
-  }
-  100%{
-    transform:scale(1.15);
-    bottom:20px;
-  }
-}
-
-/* Crazy dance */
-.dance{
-  animation:dance 0.5s infinite;
-}
-@keyframes dance{
-  0%{transform:rotate(-10deg) scale(1.15);}
-  50%{transform:rotate(10deg) scale(1.2);}
-  100%{transform:rotate(-10deg) scale(1.15);}
-}
-
-/* Lip sync */
-.talk{
-  animation:lip 0.25s infinite;
-}
-@keyframes lip{
-  0%{transform:scaleY(1);}
-  50%{transform:scaleY(0.92);}
-  100%{transform:scaleY(1);}
-}
-
-/* Talking text */
-#talkText{
-  position:fixed;
-  bottom:300px;
-  background:white;
-  padding:12px 18px;
-  border-radius:20px;
-  color:#ff0033;
-  font-weight:bold;
+  bottom:-160px;
+  width:160px;
   display:none;
   z-index:5;
 }
 
-/* Teddy rain */
-.teddyRain{
-  position:fixed;
-  top:-60px;
-  width:50px;
-  animation:fall linear forwards;
+/* WALK TOWARDS SCREEN */
+.walk{
+  animation:walkIn 5s ease-out forwards;
 }
-@keyframes fall{
-  to{transform:translateY(120vh) rotate(360deg);opacity:0;}
+@keyframes walkIn{
+  0%{transform:scale(0.3);bottom:-160px;}
+  100%{transform:scale(1.2);bottom:30px;}
 }
 
-/* Heart fireworks */
+/* CRAZY DANCE */
+.dance{
+  animation:dance 0.45s infinite;
+}
+@keyframes dance{
+  0%{transform:rotate(-10deg);}
+  50%{transform:rotate(10deg);}
+  100%{transform:rotate(-10deg);}
+}
+
+/* TEDDY IMAGE */
+#teddy{
+  width:100%;
+  display:block;
+}
+
+/* LIP SYNC (image only) */
+.talk{
+  animation:lip 0.22s infinite;
+}
+@keyframes lip{
+  0%{transform:scaleY(1);}
+  50%{transform:scaleY(0.88);}
+  100%{transform:scaleY(1);}
+}
+
+/* TALK TEXT */
+#talkText{
+  position:fixed;
+  bottom:260px;
+  background:#fff;
+  padding:10px 16px;
+  border-radius:18px;
+  color:#ff0033;
+  font-weight:bold;
+  display:none;
+  z-index:6;
+}
+
+/* HEART FIREWORKS */
 .heart{
   position:fixed;
   font-size:28px;
-  animation:burst 1.5s ease-out forwards;
+  animation:burst 1.4s ease-out forwards;
 }
 @keyframes burst{
   0%{transform:scale(0);opacity:1;}
-  100%{transform:scale(2);opacity:0;}
+  100%{transform:scale(2.2);opacity:0;}
 }
 </style>
 </head>
@@ -140,61 +124,55 @@ button{
 <button id="no">NO 🙈</button>
 
 <div id="talkText">Hi Bhuvi 😍</div>
-<img id="teddyBig" src="teddy.jpg">
+
+<div id="teddyWrap">
+  <img id="teddy" src="teddy.jpg">
+</div>
+
 <audio id="voice" src="voice.mp3"></audio>
 
 <script>
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
-const teddy = document.getElementById("teddyBig");
+const wrap = document.getElementById("teddyWrap");
+const teddy = document.getElementById("teddy");
 const voice = document.getElementById("voice");
 const talk = document.getElementById("talkText");
 
-/* NO runs away */
+/* NO button runs */
 no.onmouseover = ()=>{
   no.style.left=Math.random()*80+"vw";
   no.style.top=Math.random()*80+"vh";
 };
 
 /* YES click */
-yes.onclick=()=>{
-  teddy.style.display="block";
+yes.onclick = ()=>{
+  wrap.style.display="block";
   talk.style.display="block";
   voice.play();
 
-  /* Teddy walks in */
-  teddy.classList.add("walk");
+  /* WALK IN */
+  wrap.classList.add("walk");
 
-  /* After walk finishes → dance + lip sync */
+  /* AFTER WALK → DANCE */
   setTimeout(()=>{
-    teddy.classList.remove("walk");
-    teddy.classList.add("dance","talk");
-  },6000);
+    wrap.classList.remove("walk");
+    wrap.classList.add("dance");
+  },5000);
 
-  voice.onended=()=>teddy.classList.remove("talk");
+  /* LIP SYNC ONLY WHILE VOICE */
+  teddy.classList.add("talk");
+  voice.onended = ()=> teddy.classList.remove("talk");
 
-  /* Talking messages */
+  /* TALKING TEXT */
   const msgs=[
     "Hi Bhuvi 😍",
-    "Happy Teddy Day 🧸",
-    "Idi nee teddy ❤️",
-    "Love you 😘"
+    "Happy Teddy Day 🧸"
   ];
   let i=0;
-  setInterval(()=>{talk.textContent=msgs[i++%msgs.length];},3000);
+  setInterval(()=> talk.textContent = msgs[i++%msgs.length], 2500);
 
-  /* Teddy rain */
-  setInterval(()=>{
-    const t=document.createElement("img");
-    t.src="teddy.jpg";
-    t.className="teddyRain";
-    t.style.left=Math.random()*100+"vw";
-    t.style.animationDuration=(3+Math.random()*3)+"s";
-    document.body.appendChild(t);
-    setTimeout(()=>t.remove(),6000);
-  },250);
-
-  /* Heart fireworks */
+  /* HEART FIREWORKS */
   setInterval(()=>{
     for(let i=0;i<6;i++){
       const h=document.createElement("div");
@@ -203,11 +181,11 @@ yes.onclick=()=>{
       h.style.left=Math.random()*100+"vw";
       h.style.top=Math.random()*60+"vh";
       document.body.appendChild(h);
-      setTimeout(()=>h.remove(),1500);
+      setTimeout(()=>h.remove(),1400);
     }
   },1200);
 
-  /* Auto close */
+  /* AUTO CLOSE */
   setTimeout(()=>window.close(),20000);
 };
 </script>
